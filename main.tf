@@ -24,7 +24,7 @@ resource "azurerm_storage_account" "vm-sa" {
   location                 = "${var.location}"
   account_tier             = "${element(split("_", var.boot_diagnostics_sa_type),0)}"
   account_replication_type = "${element(split("_", var.boot_diagnostics_sa_type),1)}"
-  tags                     = "${var.tags}"
+  tags                      = "${var.tags}"
 }
 
 resource "azurerm_virtual_machine" "vm-linux" {
@@ -230,14 +230,14 @@ resource "azurerm_availability_set" "vm" {
   managed                      = true
 }
 
-resource "azurerm_public_ip" "vm" {
-  count                        = "${var.nb_public_ip}"
-  name                         = "${var.vm_hostname}-${count.index}-publicIP"
-  location                     = "${var.location}"
-  resource_group_name          = "${azurerm_resource_group.vm.name}"
-  public_ip_address_allocation = "${var.public_ip_address_allocation}"
-  domain_name_label            = "${element(var.public_ip_dns, count.index)}"
-}
+# resource "azurerm_public_ip" "vm" {
+#   count                        = "${var.nb_public_ip}"
+#   name                         = "${var.vm_hostname}-${count.index}-publicIP"
+#   location                     = "${var.location}"
+#   resource_group_name          = "${azurerm_resource_group.vm.name}"
+#   public_ip_address_allocation = "${var.public_ip_address_allocation}"
+#   domain_name_label            = "${element(var.public_ip_dns, count.index)}"
+# }
 
 resource "azurerm_network_interface" "vm" {
   count                     = "${var.nb_instances}"
